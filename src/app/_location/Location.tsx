@@ -2,9 +2,17 @@
 
 import { useState } from 'react';
 
+interface Location {
+  latitude: number | null;
+  longitude: number | null;
+}
+
 export default function Location() {
-  const [location, setLocation] = useState({ latitude: null, longitude: null });
-  const [error, setError] = useState(null);
+  const [location, setLocation] = useState<Location>({
+    latitude: null,
+    longitude: null,
+  });
+  const [error, setError] = useState<string | null>(null);
 
   const getLocation = () => {
     if (navigator.geolocation) {
@@ -27,7 +35,12 @@ export default function Location() {
 
   return (
     <div>
-      <button onClick={getLocation}>Get Location</button>
+      <button
+        className='bg-chalk text-black px-3 py-2 rounded hover:bg-gray-200 transition'
+        onClick={getLocation}
+      >
+        Get Location
+      </button>
       {error && <p>Error: {error}</p>}
       {location.latitude && location.longitude && (
         <p>
