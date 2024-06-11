@@ -32,8 +32,6 @@ export const Location = () => {
   return (
     <div>
       {error && <p>Error: {error}</p>}
-
-      {/* <GooglePlacesAutocomplete apiKey='AIzaSyC7CRMGidfgMRFxUD5Q1cAN00XO17fdHi4' /> */}
       {weatherData && (
         <div className='text-chalk'>
           <p>You are in {weatherData.location}</p>
