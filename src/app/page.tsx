@@ -1,12 +1,7 @@
-import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
-import { Weather } from './_weather/Weather';
-
 export default function Home() {
   return (
     <>
-      <WeatherContextProvider>
-        <Weather />
-      </WeatherContextProvider>
+      <h1>Music for the weather</h1>
     </>
   );
 }

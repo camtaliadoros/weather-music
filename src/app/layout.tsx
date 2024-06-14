@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,12 +12,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  weather,
+}: {
   children: React.ReactNode;
-}>) {
+  weather: React.ReactNode;
+}) {
   return (
     <html lang='en'>
-      <body className={`${inter.className} h-screen`}>{children}</body>
+      <WeatherContextProvider>
+        <body className={`${inter.className} h-screen`}>
+          <div>{children}</div>
+          <div>{weather}</div>
+        </body>
+      </WeatherContextProvider>
     </html>
   );
 }

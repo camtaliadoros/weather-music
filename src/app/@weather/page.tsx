@@ -3,7 +3,7 @@
 import { useContext } from 'react';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 
-export const Weather = () => {
+export default function Weather() {
   const { weatherData, error } = useContext(WeatherContext);
 
   return (
@@ -19,4 +19,4 @@ export const Weather = () => {
       )}
     </div>
   );
-};
+}
