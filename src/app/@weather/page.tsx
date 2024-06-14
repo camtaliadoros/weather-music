@@ -11,13 +11,13 @@ export default function Weather() {
       {error && <p>Error: {error}</p>}
       {weatherData && (
         <div className='text-chalk w-full'>
+          <p>{weatherData.condition}</p>
           <p>The current temperature in {weatherData.location} is</p>
           <p className='text-4xl font-bold'> {weatherData.temperature}&deg;C</p>
           <p>
             Feels like:{' '}
             <span className='font-bold'>{weatherData.feelsLike}&deg;C</span>
           </p>
-          <p>{weatherData.condition}</p>
         </div>
       )}
     </>
