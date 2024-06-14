@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
+import { Column } from '@/components/column';
 
-const inter = Inter({ subsets: ['latin'] });
+const openSans = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,9 +21,17 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <WeatherContextProvider>
-        <body className={`${inter.className} h-screen`}>
-          <div>{children}</div>
-          <div>{weather}</div>
+        <body className={`${openSans.className} h-screen`}>
+          <main className='w-full text-center grid-cols-1 h-screen'>
+            {children}
+            <div className='grid grid-cols-2'>
+              <Column>{weather}</Column>
+              <Column>
+                <p>Spotify goes here</p>
+              </Column>
+            </div>
+            <div className='h-32 justify-self-end'>Player goes here</div>
+          </main>
         </body>
       </WeatherContextProvider>
     </html>
