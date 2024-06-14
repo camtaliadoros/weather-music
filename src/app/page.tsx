@@ -1,11 +1,11 @@
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
-import { Location } from './_location/Location';
+import { Weather } from './_weather/Weather';
 
 export default function Home() {
   return (
     <>
       <WeatherContextProvider>
-        <Location />
+        <Weather />
       </WeatherContextProvider>
     </>
   );
