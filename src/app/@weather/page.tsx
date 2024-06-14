@@ -12,9 +12,12 @@ export default function Weather() {
       {weatherData && (
         <div className='text-chalk w-full'>
           <p>The current temperature in {weatherData.location} is</p>
-          <p> {weatherData.temperature}&deg;C</p>
-          <p>Feels like: {weatherData.feelsLike}&deg;C</p>
-          <p>Weather condition: {weatherData.condition}</p>
+          <p className='text-4xl font-bold'> {weatherData.temperature}&deg;C</p>
+          <p>
+            Feels like:{' '}
+            <span className='font-bold'>{weatherData.feelsLike}&deg;C</span>
+          </p>
+          <p>{weatherData.condition}</p>
         </div>
       )}
     </>
