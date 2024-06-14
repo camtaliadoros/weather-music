@@ -24,7 +24,7 @@ export default function RootLayout({
         <body className={`${openSans.className} h-screen`}>
           <main className='w-full text-center grid-cols-1 h-screen'>
             {children}
-            <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
               <Column>{weather}</Column>
               <Column>
                 <p>Spotify goes here</p>
