@@ -38,6 +38,8 @@ export const WeatherContextProvider = ({
                 temperature: result.current.temp_c,
                 feelsLike: result.current.feelslike_c,
                 condition: result.current.condition.text,
+                conditionCode: result.current.condition.code,
+                isDay: result.current.is_day === 1,
               };
 
               setWeatherData(weatherRes);

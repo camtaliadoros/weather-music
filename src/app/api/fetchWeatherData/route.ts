@@ -5,8 +5,6 @@ export async function GET(req: Request) {
   const latitude = searchParams.get('latitude');
   const longitude = searchParams.get('longitude');
 
-  console.log(req);
-
   try {
     const response = await fetch(
       `http://api.weatherapi.com/v1/current.json?q=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`

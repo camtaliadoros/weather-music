@@ -8,4 +8,6 @@ export interface WeatherData {
   temperature: number;
   feelsLike: number;
   condition: string;
+  conditionCode: number;
+  isDay: boolean;
 }
