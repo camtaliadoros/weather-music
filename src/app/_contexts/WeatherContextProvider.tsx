@@ -2,7 +2,7 @@
 
 import { createContext, useEffect, useState } from 'react';
 import { WeatherData } from '../_models';
-import { getWeatherForecast } from '../_util/getWeatherForecast';
+// import { getWeatherForecast } from '../_util/getWeatherForecast';
 
 export const WeatherContext = createContext<{
   weatherData?: WeatherData;
@@ -25,7 +25,29 @@ export const WeatherContextProvider = ({
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          getWeatherForecast(location).then((data) => setWeatherData(data));
+
+          const fetchData = async () => {
+            try {
+              const res = await fetch(
+                `/api/fetchWeatherData?longitude=${location.longitude}&latitude=${location.latitude}`
+              );
+              const result = await res.json();
+
+              const weatherRes: WeatherData = {
+                location: result.location.name,
+                temperature: result.current.temp_c,
+                feelsLike: result.current.feelslike_c,
+                condition: result.current.condition.text,
+              };
+
+              setWeatherData(weatherRes);
+            } catch (e) {
+              console.log(e);
+            }
+          };
+
+          fetchData();
+
           setError(null);
         },
         (error) => {
