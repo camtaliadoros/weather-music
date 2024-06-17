@@ -4,11 +4,14 @@ import { useContext, useEffect, useState } from 'react';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 import { WeatherData } from '../_models';
 import Loading from './loading';
+import Image from 'next/image';
+import { weatherCodes } from '@/util/weatherCodes';
 
 export default function Weather() {
   const { weatherData, setWeatherData, setError, error } =
     useContext(WeatherContext);
   const [loading, setLoading] = useState(true);
+  const [iconCode, setIconCode] = useState();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -36,6 +39,8 @@ export default function Weather() {
               };
 
               setWeatherData?.(weatherRes);
+
+              setIconCode(weatherCodes[weatherRes.conditionCode].icon);
             } catch (e) {
               console.log(e);
             } finally {
@@ -66,7 +71,17 @@ export default function Weather() {
     <>
       {error && <p>Error: {error}</p>}
       {weatherData && (
-        <div className='text-chalk w-full'>
+        <div className='text-chalk w-full flex flex-col items-center'>
+          {iconCode && (
+            <Image
+              src={`https://cdn.weatherapi.com/weather/64x64/${
+                weatherData.isDay ? 'day' : 'night'
+              }/${iconCode}.png`}
+              alt={`illustration of ${weatherData.condition} weather`}
+              width={64}
+              height={64}
+            />
+          )}
           <p>{weatherData.condition}</p>
           <p>The current temperature in {weatherData.location} is</p>
           <p className='text-4xl font-bold'> {weatherData.temperature}&deg;C</p>
