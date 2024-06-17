@@ -3,6 +3,7 @@ import { Open_Sans } from 'next/font/google';
 import './globals.css';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 import { Column } from '@/components/column';
+import { Suspense } from 'react';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             {children}
             <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
               <Column>{weather}</Column>
+
               <Column>
                 <p>Spotify goes here</p>
               </Column>
