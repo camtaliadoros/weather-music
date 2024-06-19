@@ -15,9 +15,11 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
   weather,
+  spotify,
 }: {
   children: React.ReactNode;
   weather: React.ReactNode;
+  spotify: React.ReactNode;
 }) {
   return (
     <html lang='en'>
@@ -27,10 +29,7 @@ export default function RootLayout({
             {children}
             <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
               <Column>{weather}</Column>
-
-              <Column>
-                <p>Spotify goes here</p>
-              </Column>
+              <Column>{spotify}</Column>
             </div>
             <div className='h-1/5 justify-self-end'>Player goes here</div>
           </main>
