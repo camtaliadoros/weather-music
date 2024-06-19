@@ -1,4 +1,14 @@
-export const weatherCodes = {
+interface WeatherCodeEntry {
+  day: string;
+  night: string;
+  icon: number;
+}
+
+interface WeatherCodes {
+  [key: number]: WeatherCodeEntry;
+}
+
+export const weatherCodes: WeatherCodes = {
   1000: {
     day: 'Sunny',
     night: 'Clear',

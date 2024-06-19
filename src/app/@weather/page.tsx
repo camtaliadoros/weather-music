@@ -11,7 +11,7 @@ export default function Weather() {
   const { weatherData, setWeatherData, setError, error } =
     useContext(WeatherContext);
   const [loading, setLoading] = useState(true);
-  const [iconCode, setIconCode] = useState();
+  const [iconCode, setIconCode] = useState<number | undefined>();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -40,7 +40,11 @@ export default function Weather() {
 
               setWeatherData?.(weatherRes);
 
-              setIconCode(weatherCodes[weatherRes.conditionCode].icon);
+              const weatherCode = weatherRes.conditionCode;
+
+              const weatherCodeData = weatherCodes[weatherCode];
+
+              setIconCode(weatherCodeData.icon);
             } catch (e) {
               console.log(e);
             } finally {
