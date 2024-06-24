@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, createContext, useState } from 'react';
 import { WeatherData } from '../_models';
-// import { getWeatherForecast } from '../_util/getWeatherForecast';
 
 export const WeatherContext = createContext<{
   weatherData?: WeatherData;
