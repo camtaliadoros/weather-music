@@ -27,16 +27,18 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <WeatherContextProvider>
-        <body className={`${openSans.className} h-screen`}>
-          <main className='flex flex-col w-full text-center h-screen'>
-            {children}
-            <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
-              <Column>{weather}</Column>
-              <Column>{playlist}</Column>
-            </div>
-            <div className='h-1/5 justify-self-end'>{player}</div>
-          </main>
-        </body>
+        <SpotifyContextProvider>
+          <body className={`${openSans.className} h-screen`}>
+            <main className='flex flex-col w-full text-center h-screen'>
+              {children}
+              <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
+                <Column>{weather}</Column>
+                <Column>{playlist}</Column>
+              </div>
+              <div className='h-1/5 justify-self-end'>{player}</div>
+            </main>
+          </body>
+        </SpotifyContextProvider>
       </WeatherContextProvider>
     </html>
   );
