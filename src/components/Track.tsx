@@ -1,14 +1,11 @@
 import { TrackObject } from '@/app/_models';
+import { lineArtistsNames } from '@/util/util';
 
 export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsArr = trackData.artists;
   const trackName = trackData.name;
 
-  // Isolate artists names
-  const artistNamesArr = artistsArr.map((artist) => artist.name);
-
-  // Join in comma separated string
-  const artistsLine = artistNamesArr.join(', ');
+  const artistsLine = lineArtistsNames(artistsArr);
 
   return (
     <button className='flex items-center w-full py-4 hover:bg-chalk hover:bg-opacity-10 transition'>
