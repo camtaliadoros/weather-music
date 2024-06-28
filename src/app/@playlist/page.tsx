@@ -52,29 +52,29 @@ export default function Playlist() {
     }
   }, [accessToken]);
 
-  const handleClick = async (trackUri: string) => {
+  const handleClick = async (trackIndex: number) => {
+    // Create array from clicked on track onwards
+    const tracksToPlay = playlist?.slice(trackIndex);
+
+    // Isolate track URIs
+    const tracksUris = tracksToPlay?.map((track) => track.uri);
+
     // Start playing track clicked on
-    const playResponse = fetch(`${endpoints.spotify}/player/play`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        context_uri: trackUri,
-      }),
-    });
 
-    // Add track to the player queue
-    const url = new URL(`${endpoints.spotify}/player/queue`);
-    url.search = new URLSearchParams({ uri: trackUri }).toString();
-
-    const response = await fetch(url.toString(), {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    try {
+      const playResponse = await fetch(`${endpoints.spotify}/player/play`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uris: tracksUris,
+        }),
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   if (loading) {
@@ -86,10 +86,10 @@ export default function Playlist() {
       <h2 className='text-xl font-bold mb-6'>Playlist</h2>
       <div className='h-full overflow-scroll'>
         {playlist ? (
-          playlist.map((track) => (
+          playlist.map((track, i) => (
             <button
               key={track.id}
-              onClick={() => handleClick(track.uri)}
+              onClick={() => handleClick(i)}
               className='flex items-center w-full py-4 hover:bg-chalk hover:bg-opacity-10 transition'
             >
               <Track key={track.id} trackData={track} />
