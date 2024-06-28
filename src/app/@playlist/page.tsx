@@ -50,6 +50,18 @@ export default function Playlist() {
     }
   }, [accessToken]);
 
+  const handleClick = async (trackUri: string) => {
+    const url = new URL('https://api.spotify.com/v1/me/player/queue');
+    url.search = new URLSearchParams({ uri: trackUri }).toString();
+
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -59,7 +71,15 @@ export default function Playlist() {
       <h2 className='text-xl font-bold mb-6'>Playlist</h2>
       <div className='h-full overflow-scroll'>
         {playlist ? (
-          playlist.map((track) => <Track key={track.id} trackData={track} />)
+          playlist.map((track) => (
+            <button
+              key={track.id}
+              onClick={() => handleClick(track.uri)}
+              className='flex items-center w-full py-4 hover:bg-chalk hover:bg-opacity-10 transition'
+            >
+              <Track key={track.id} trackData={track} />
+            </button>
+          ))
         ) : (
           <p>No tracks found</p>
         )}

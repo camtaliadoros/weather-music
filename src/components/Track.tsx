@@ -8,7 +8,7 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsLine = lineArtistsNames(artistsArr);
 
   return (
-    <button className='flex items-center w-full py-4 hover:bg-chalk hover:bg-opacity-10 transition'>
+    <>
       <div className='m-4'>
         <div className='play-icon'></div>
       </div>
@@ -18,6 +18,6 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
 
         <p className='mb-0 text-left'>{artistsLine}</p>
       </div>
-    </button>
+    </>
   );
 }
