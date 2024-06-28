@@ -68,9 +68,14 @@ export default function Player() {
 
   return (
     <>
-      <p>Now Playing:</p>
-      <p>{playingNow && playingNow.trackName}</p>
-      <p>{playingNow && playingNow.artists}</p>
+      <button>
+        <div className='play-icon'></div>
+      </button>
+      <div>
+        <p>Now Playing:</p>
+        <p>{playingNow && playingNow.trackName}</p>
+        <p>{playingNow && playingNow.artists}</p>
+      </div>
     </>
   );
 }
