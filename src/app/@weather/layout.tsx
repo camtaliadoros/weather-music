@@ -5,5 +5,5 @@ export default function WeatherLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Column>{children}</Column>;
+  return <div>{children}</div>;
 }
