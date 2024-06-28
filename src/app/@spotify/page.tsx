@@ -1,42 +1,15 @@
 'use client';
 
+import Track from '@/components/Track';
 import { getAccessToken, redirectToAuthCodeFlow } from '@/util/spotifyAuth';
 import { useEffect, useState } from 'react';
-
-type Artist = {
-  id: string;
-  name: string;
-};
-
-type ExternalUrls = {
-  spotify: string;
-};
-
-type ExternalIds = {
-  isrc: string;
-};
-
-type Image = {
-  height: number;
-  url: string;
-  width: number;
-};
-
-type Track = {
-  available_markets: string[];
-  external_ids: ExternalIds;
-  external_urls: ExternalUrls;
-  href: string;
-  id: string;
-  name: string;
-  uri: string;
-};
+import { Artist, TrackObject } from '../_models';
 
 export default function Spotify() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
 
-  const [playlist, setPlaylist] = useState<Track[]>();
+  const [playlist, setPlaylist] = useState<TrackObject[]>();
 
   useEffect(() => {
     const getSpotifyAccess = async () => {
@@ -51,12 +24,16 @@ export default function Spotify() {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
+
+        // Request user's top 5 artists
         const topArtists = (await topArtistsJson.json()) as { items: Artist[] };
 
+        // Map top artists data into array of ids
         const artistsIds = topArtists.items
           .map((artist) => artist.id)
           .toString();
 
+        // Request 20 recommended tracks based on seed artists
         const tracksJson = await fetch(
           `https://api.spotify.com/v1/recommendations?limit=20&seed_artists=${artistsIds}`,
           {
@@ -64,7 +41,9 @@ export default function Spotify() {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-        const tracksList = (await tracksJson.json()) as { tracks: Track[] };
+        const tracksList = (await tracksJson.json()) as {
+          tracks: TrackObject[];
+        };
         setPlaylist(tracksList.tracks);
       }
     };
@@ -73,8 +52,15 @@ export default function Spotify() {
   }, [code]);
 
   return (
-    <>
+    <div className='h-full'>
       <h2>Playlist</h2>
-    </>
+      <div className='h-full overflow-scroll'>
+        {playlist ? (
+          playlist.map((track) => <Track key={track.id} trackData={track} />)
+        ) : (
+          <p>No tracks found</p>
+        )}
+      </div>
+    </div>
   );
 }

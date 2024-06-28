@@ -1,5 +1,7 @@
 export const Column = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className='flex-column justify-center items-center'>{children}</div>
+    <div className='flex flex-col justify-center items-center min-h-0'>
+      {children}
+    </div>
   );
 };

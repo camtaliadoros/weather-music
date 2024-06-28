@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang='en'>
       <WeatherContextProvider>
         <body className={`${openSans.className} h-screen`}>
-          <main className='w-full text-center grid-cols-1 h-screen'>
+          <main className='flex flex-col w-full text-center h-screen'>
             {children}
             <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
               <Column>{weather}</Column>
