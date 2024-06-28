@@ -17,9 +17,9 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
       </div>
 
       <div className='flex flex-col items-start'>
-        <p className='font-semibold mb-1'>{trackName}</p>
+        <p className='font-semibold mb-1 text-left'>{trackName}</p>
 
-        <p className='mb-0'>{artistsLine}</p>
+        <p className='mb-0 text-left'>{artistsLine}</p>
       </div>
     </button>
   );
