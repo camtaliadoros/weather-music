@@ -3,7 +3,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 import { WeatherData } from '../_models';
-import Loading from './loading';
+import Loading from '../../components/loading';
 import Image from 'next/image';
 import { weatherCodes } from '@/util/weatherCodes';
 

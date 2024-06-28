@@ -4,9 +4,11 @@ import Track from '@/components/Track';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { Artist, TrackObject } from '../_models';
+import Loading from '@/components/loading';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
+  const [loading, setLoading] = useState(true);
 
   const { accessToken } = useContext(SpotifyContext);
 
@@ -41,11 +43,16 @@ export default function Playlist() {
             tracks: TrackObject[];
           };
           setPlaylist(tracksList.tracks);
+          setLoading(false);
         }
       };
       fetchTrackRecommendations();
     }
   }, [accessToken]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className='flex flex-col h-full w-1/2 text-wrap'>

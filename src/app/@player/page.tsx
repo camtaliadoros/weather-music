@@ -16,11 +16,12 @@ type NowPlayingTrackData = {
   isPlaying: boolean;
   trackName: string;
   artists: string;
+  uri: string;
 };
 
 export default function Player() {
   const [playingNow, setPlayingNow] = useState<
-    string | NowPlayingTrackData | undefined
+    NowPlayingTrackData | undefined
   >();
   const [error, setError] = useState<string | null>(null);
 
@@ -46,11 +47,12 @@ export default function Player() {
               artists: lineArtistsNames(currentlyPlaying.item.artists),
               progress: currentlyPlaying.progress_ms,
               isPlaying: currentlyPlaying.is_playing,
+              uri: currentlyPlaying.item.uri,
             };
 
             setPlayingNow(playingData);
           } else {
-            setPlayingNow('Nothing playing right now');
+            setPlayingNow(undefined);
           }
           setError(null);
         } catch (e) {
@@ -72,9 +74,15 @@ export default function Player() {
         <div className='play-icon'></div>
       </button>
       <div>
-        <p>Now Playing:</p>
-        <p>{playingNow && playingNow.trackName}</p>
-        <p>{playingNow && playingNow.artists}</p>
+        {playingNow ? (
+          <div>
+            <p>Now Playing:</p>
+            <p>{playingNow && playingNow.trackName}</p>
+            <p>{playingNow && playingNow.artists}</p>
+          </div>
+        ) : (
+          <p>Nothing playing right now</p>
+        )}
       </div>
     </>
   );
