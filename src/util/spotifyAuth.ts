@@ -1,12 +1,12 @@
-interface AccessTokenRequestParamsType {
+type AccessTokenRequestParamsType = {
   client_id: string;
   grant_type: string;
   code: string;
   redirect_uri: string;
-  code_verifier: string | null;
-}
+  code_verifier: string;
+};
 
-const clientId: string = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
 const redirectUri = 'http://localhost:3000/';
 
 export async function redirectToAuthCodeFlow() {
@@ -54,7 +54,7 @@ export async function getAccessToken(code: string): Promise<string> {
     grant_type: 'authorization_code',
     code,
     redirect_uri: redirectUri,
-    code_verifier: codeVerifier,
+    code_verifier: codeVerifier ?? '',
   };
 
   const payload = {

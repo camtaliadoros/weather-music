@@ -1,14 +1,42 @@
 'use client';
 
-import Track from '@/components/Track';
 import { getAccessToken, redirectToAuthCodeFlow } from '@/util/spotifyAuth';
 import { useEffect, useState } from 'react';
+
+type Artist = {
+  id: string;
+  name: string;
+};
+
+type ExternalUrls = {
+  spotify: string;
+};
+
+type ExternalIds = {
+  isrc: string;
+};
+
+type Image = {
+  height: number;
+  url: string;
+  width: number;
+};
+
+type Track = {
+  available_markets: string[];
+  external_ids: ExternalIds;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  name: string;
+  uri: string;
+};
 
 export default function Spotify() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
 
-  const [playlist, setPlaylist] = useState();
+  const [playlist, setPlaylist] = useState<Track[]>();
 
   useEffect(() => {
     const getSpotifyAccess = async () => {
@@ -23,7 +51,7 @@ export default function Spotify() {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-        const topArtists = await topArtistsJson.json();
+        const topArtists = (await topArtistsJson.json()) as { items: Artist[] };
 
         const artistsIds = topArtists.items
           .map((artist) => artist.id)
@@ -36,9 +64,8 @@ export default function Spotify() {
             headers: { Authorization: `Bearer ${accessToken}` },
           }
         );
-        const tracks = await tracksJson.json();
-        setPlaylist(tracks);
-        console.log(tracks);
+        const tracksList = (await tracksJson.json()) as { tracks: Track[] };
+        setPlaylist(tracksList.tracks);
       }
     };
 
