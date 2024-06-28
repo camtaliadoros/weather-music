@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useState,
-} from 'react';
-import { AccessToken, WeatherData } from '../_models';
 import { getAccessToken, redirectToAuthCodeFlow } from '@/util/spotifyAuth';
+import { createContext, useEffect, useState } from 'react';
 
 export const SpotifyContext = createContext<{
   accessToken?: string;
@@ -29,19 +22,23 @@ export const SpotifyContextProvider = ({
   useEffect(() => {
     try {
       const getSpotifyAccess = async () => {
-        if (!code && !accessToken) {
-          redirectToAuthCodeFlow();
-        } else {
-          const token = await getAccessToken(code);
-          window.history.replaceState(undefined, '', '/');
-          setAccessToken?.(token);
+        if (!accessToken) {
+          if (!code) {
+            redirectToAuthCodeFlow();
+          } else {
+            const token = await getAccessToken(code);
+            if (token) {
+              window.history.replaceState(undefined, '', '/');
+              setAccessToken?.(token);
+            }
+          }
         }
       };
       getSpotifyAccess();
     } catch (e) {
       setError('Could not access your Spotify account, please try again');
     }
-  }, []);
+  }, [code, accessToken]);
 
   return (
     <SpotifyContext.Provider value={{ accessToken, error }}>

@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { Artist, TrackObject } from '../_models';
 import Loading from '@/components/loading';
+import { endpoints } from '@/util/util';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
@@ -17,7 +18,7 @@ export default function Playlist() {
       const fetchTrackRecommendations = async () => {
         // Request user's top 5 artists
         const topArtistsJson = await fetch(
-          'https://api.spotify.com/v1/me/top/artists?limit=5',
+          `${endpoints.spotify}/top/artists?limit=5`,
           {
             method: 'GET',
             headers: { Authorization: `Bearer ${accessToken}` },
@@ -28,8 +29,9 @@ export default function Playlist() {
 
         if (topArtists) {
           const artists = topArtists.items;
+
           // Map top artists data into array of ids
-          const artistsIds = artists?.map((artist) => artist.id).toString();
+          const artistsIds = artists.map((artist) => artist.id).toString();
 
           // Request 20 recommended tracks based on seed artists
           const tracksJson = await fetch(
@@ -51,7 +53,20 @@ export default function Playlist() {
   }, [accessToken]);
 
   const handleClick = async (trackUri: string) => {
-    const url = new URL('https://api.spotify.com/v1/me/player/queue');
+    // Start playing track clicked on
+    const playResponse = fetch(`${endpoints.spotify}/player/play`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        context_uri: trackUri,
+      }),
+    });
+
+    // Add track to the player queue
+    const url = new URL(`${endpoints.spotify}/player/queue`);
     url.search = new URLSearchParams({ uri: trackUri }).toString();
 
     const response = await fetch(url.toString(), {

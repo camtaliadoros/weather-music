@@ -1,71 +1,12 @@
 'use client';
 
-import { useContext, useEffect, useState } from 'react';
-import { WeatherContext } from '../_contexts/WeatherContextProvider';
-import { WeatherData } from '../_models';
-import Loading from '../../components/loading';
 import Image from 'next/image';
-import { weatherCodes } from '@/util/weatherCodes';
+import Loading from '../../components/loading';
+import { useContext } from 'react';
+import { WeatherContext } from '../_contexts/WeatherContextProvider';
 
 export default function Weather() {
-  const { weatherData, setWeatherData, setError, error } =
-    useContext(WeatherContext);
-  const [loading, setLoading] = useState(true);
-  const [iconCode, setIconCode] = useState<number | undefined>();
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const location = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          };
-
-          const fetchData = async () => {
-            try {
-              const res = await fetch(
-                `/api/fetchWeatherData?longitude=${location.longitude}&latitude=${location.latitude}`
-              );
-              const result = await res.json();
-
-              const weatherRes: WeatherData = {
-                location: result.location.name,
-                temperature: result.current.temp_c,
-                feelsLike: result.current.feelslike_c,
-                condition: result.current.condition.text,
-                conditionCode: result.current.condition.code,
-                isDay: result.current.is_day === 1,
-              };
-
-              setWeatherData?.(weatherRes);
-
-              const weatherCode = weatherRes.conditionCode;
-
-              const weatherCodeData = weatherCodes[weatherCode];
-
-              setIconCode(weatherCodeData.icon);
-            } catch (e) {
-              console.log(e);
-            } finally {
-              setLoading(false);
-            }
-          };
-
-          fetchData();
-
-          setError?.(null);
-        },
-        (error) => {
-          setError?.(error.message);
-          setLoading(false);
-        }
-      );
-    } else {
-      setError?.('Geolocation is not supported by this browser');
-      setLoading(false);
-    }
-  }, [setError, setWeatherData]);
+  const { weatherData, error, loading, iconCode } = useContext(WeatherContext);
 
   if (loading) {
     return <Loading />;

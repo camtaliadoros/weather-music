@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { TrackObject } from '../_models';
-import { lineArtistsNames } from '@/util/util';
+import { endpoints, lineArtistsNames } from '@/util/util';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 
 type CurrentlyPlaying = {
@@ -32,7 +32,7 @@ export default function Player() {
       if (accessToken) {
         try {
           const currentlyPlayingJson = await fetch(
-            'https://api.spotify.com/v1/me/player/currently-playing',
+            `${endpoints.spotify}/player/currently-playing`,
             {
               method: 'GET',
               headers: { Authorization: `Bearer ${accessToken}` },
@@ -76,7 +76,7 @@ export default function Player() {
       <div>
         {playingNow ? (
           <div>
-            <p>Now Playing:</p>
+            <h3>Now Playing:</h3>
             <p>{playingNow && playingNow.trackName}</p>
             <p>{playingNow && playingNow.artists}</p>
           </div>

@@ -9,3 +9,7 @@ export const lineArtistsNames = (artistsArr: Artist[]) => {
 
   return artistsLine;
 };
+
+export const endpoints = {
+  spotify: 'https://api.spotify.com/v1/me',
+} as const;

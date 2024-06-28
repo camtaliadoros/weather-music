@@ -50,7 +50,7 @@ export async function generateCodeChallenge(codeVerifier: string) {
 }
 
 export async function getAccessToken(code: string): Promise<string> {
-  let codeVerifier = localStorage.getItem('code_verifier');
+  const codeVerifier = localStorage.getItem('code_verifier');
 
   const searchParams: AccessTokenRequestParamsType = {
     client_id: clientId,
