@@ -1,11 +1,11 @@
 'use client';
 
 import Track from '@/components/Track';
+import Loading from '@/components/loading';
+import { endpoints } from '@/util/util';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { Artist, TrackObject } from '../_models';
-import Loading from '@/components/loading';
-import { endpoints } from '@/util/util';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
