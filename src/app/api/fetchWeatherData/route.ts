@@ -7,7 +7,7 @@ export async function GET(req: Request) {
 
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?q=${latitude},${longitude}&key=${process.env.NEXT_PUBLIC_WEATHER_API_KEY}`
+      `http://api.weatherapi.com/v1/current.json?q=${latitude},${longitude}&key=${process.env.WEATHER_API_KEY}`
     );
     const data = await response.json();
     return NextResponse.json(data);
