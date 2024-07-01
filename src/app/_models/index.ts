@@ -44,3 +44,7 @@ export type AccessToken = {
   expires_in: number;
   refresh_token: string;
 };
+
+export type PlaylistResponse = {
+  id: string;
+};

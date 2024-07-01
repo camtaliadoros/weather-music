@@ -32,7 +32,7 @@ export default function Player() {
       if (accessToken) {
         try {
           const currentlyPlayingJson = await fetch(
-            `${endpoints.spotify}/player/currently-playing`,
+            `${endpoints.spotify}/me/player/currently-playing`,
             {
               method: 'GET',
               headers: { Authorization: `Bearer ${accessToken}` },
