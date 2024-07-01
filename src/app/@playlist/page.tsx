@@ -1,12 +1,11 @@
 'use client';
 
-import Track from '@/components/Track';
+import Track from '@/components/track';
 import Loading from '@/components/loading';
 import { endpoints } from '@/util/util';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { Artist, PlaylistResponse, TrackObject } from '../_models';
-import { METHODS } from 'http';
 import Button from '@/components/button';
 
 export default function Playlist() {

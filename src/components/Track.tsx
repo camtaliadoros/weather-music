@@ -1,7 +1,5 @@
-import { SpotifyContext } from '@/app/_contexts/SpotifyAuthContextProvider';
 import { TrackObject } from '@/app/_models';
 import { lineArtistsNames } from '@/util/util';
-import { useContext } from 'react';
 
 export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsArr = trackData.artists;
