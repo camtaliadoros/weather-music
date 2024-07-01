@@ -21,7 +21,7 @@ export async function redirectToAuthCodeFlow() {
   params.append('redirect_uri', redirectUri);
   params.append(
     'scope',
-    'user-top-read user-read-currently-playing user-modify-playback-state'
+    'user-top-read user-read-currently-playing user-modify-playback-state user-read-private'
   );
   params.append('code_challenge_method', 'S256');
   params.append('code_challenge', challenge);

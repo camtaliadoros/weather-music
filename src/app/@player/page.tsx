@@ -25,7 +25,7 @@ export default function Player() {
   >();
   const [error, setError] = useState<string | null>(null);
 
-  const { accessToken } = useContext(SpotifyContext);
+  const { accessToken, userType } = useContext(SpotifyContext);
 
   useEffect(() => {
     const getCurrentlyPlaying = async () => {
@@ -63,6 +63,10 @@ export default function Player() {
 
     getCurrentlyPlaying();
   }, [accessToken]);
+
+  if (userType !== 'premium' || !userType) {
+    return <p>You need a premium account to access the player</p>;
+  }
 
   if (error) {
     return <p>{error}</p>;
