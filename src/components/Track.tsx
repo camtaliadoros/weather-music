@@ -1,5 +1,7 @@
+import { SpotifyContext } from '@/app/_contexts/SpotifyAuthContextProvider';
 import { TrackObject } from '@/app/_models';
 import { lineArtistsNames } from '@/util/util';
+import { useContext } from 'react';
 
 export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsArr = trackData.artists;
@@ -8,9 +10,7 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
   // Get artist names into a single comma-separated line
   const artistsLine = lineArtistsNames(artistsArr);
 
-  // const { userType } = useContext(SpotifyContext);
-
-  const userType = 'free';
+  const { userType } = useContext(SpotifyContext);
 
   return (
     <>

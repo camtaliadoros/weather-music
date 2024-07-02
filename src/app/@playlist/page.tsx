@@ -12,11 +12,11 @@ export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
   const [loading, setLoading] = useState(true);
   const [buttonLoading, setButtonLoading] = useState(false);
-  const [playlistSaveSuccess, setPlaylistSaveSuccess] = useState(false);
+  const [playlistSaveMessage, setPlaylistSaveMessage] = useState<string | null>(
+    null
+  );
 
-  const { accessToken, userId } = useContext(SpotifyContext);
-
-  const userType = 'free';
+  const { accessToken, userId, userType } = useContext(SpotifyContext);
 
   useEffect(() => {
     if (accessToken) {
@@ -85,38 +85,50 @@ export default function Playlist() {
   const handlePlaylistButtonClick = async () => {
     setButtonLoading(true);
 
-    // Create new playlist
-    const playlistName = 'Beateorology';
-    const responseJson = await fetch(
-      `${endpoints.spotify}/users/${userId}/playlists`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: playlistName }),
-      }
-    );
-    const createdPlaylistData = (await responseJson.json()) as PlaylistResponse;
-    const playlistId = createdPlaylistData.id;
+    try {
+      // Create new playlist
+      const playlistName = 'Beateorology';
+      const responseJson = await fetch(
+        `${endpoints.spotify}/users/${userId}/playlists`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: playlistName }),
+        }
+      );
+      const createdPlaylistData =
+        (await responseJson.json()) as PlaylistResponse;
+      const playlistId = createdPlaylistData.id;
 
-    // Isolate track URIs
-    const tracksUris = playlist?.map((track) => track.uri);
+      // Isolate track URIs
+      const tracksUris = playlist?.map((track) => track.uri);
 
-    // Add tracks to playlist
-    const addTracksJson = await fetch(
-      `${endpoints.spotify}/playlists/${playlistId}/tracks`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ uris: tracksUris }),
-      }
-    );
-    setButtonLoading(false);
+      // Add tracks to playlist
+      const addTracksJson = await fetch(
+        `${endpoints.spotify}/playlists/${playlistId}/tracks`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ uris: tracksUris }),
+        }
+      );
+      setButtonLoading(false);
+      setPlaylistSaveMessage('Your playlist has been created successfully');
+    } catch (e) {
+      setButtonLoading(false);
+      setPlaylistSaveMessage(
+        'There was an error creating the playlist. Please try again later.'
+      );
+      setTimeout(() => {
+        setPlaylistSaveMessage(null);
+      }, 5000);
+    }
   };
 
   if (loading) {
@@ -146,11 +158,17 @@ export default function Playlist() {
         )}
       </div>
 
-      <Button
-        label='Add this playlist to your Spotify'
-        onClickAction={handlePlaylistButtonClick}
-        loading={buttonLoading}
-      />
+      {playlistSaveMessage ? (
+        <div className='h-16 flex items-center justify-center'>
+          <p className='text-chalk m-0'>{playlistSaveMessage}</p>
+        </div>
+      ) : (
+        <Button
+          label='Add this playlist to your Spotify'
+          onClickAction={handlePlaylistButtonClick}
+          loading={buttonLoading}
+        />
+      )}
     </div>
   );
 }
