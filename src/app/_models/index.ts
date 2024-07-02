@@ -1,3 +1,5 @@
+import { Temperature } from '@/util/weatherCodes';
+
 // I guess youd never have latitude without longditude also i cant find this used
 export interface Location {
   latitude: number | null;
@@ -7,6 +9,7 @@ export interface Location {
 export interface WeatherData {
   location: string;
   temperature: number;
+  tempFeeling: Temperature;
   feelsLike: number;
   condition: string;
   conditionCode: number;

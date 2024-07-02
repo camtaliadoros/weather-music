@@ -4,17 +4,9 @@ type SpotifyTrackSettings = {
   energy: number;
   valence: number;
 };
+export type Temperature = 'cold' | 'mild' | 'warm' | 'hot';
 
-enum Temperature {
-  Cold = 'cold',
-  Mild = 'mild',
-  Warm = 'warm',
-  Hot = 'hot',
-}
-
-type PlaylistSettings = {
-  [key in Temperature]: SpotifyTrackSettings;
-};
+type PlaylistSettings = Record<Temperature, SpotifyTrackSettings>;
 
 interface WeatherCodeEntry {
   day: string;

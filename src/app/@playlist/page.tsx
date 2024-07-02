@@ -7,6 +7,9 @@ import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { Artist, PlaylistResponse, TrackObject } from '../_models';
 import Button from '@/components/button';
+import { WeatherContext } from '../_contexts/WeatherContextProvider';
+import { weatherCodes } from '@/util/weatherCodes';
+import { strict } from 'assert';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
@@ -17,9 +20,10 @@ export default function Playlist() {
   );
 
   const { accessToken, userId, userType } = useContext(SpotifyContext);
+  const { weatherData } = useContext(WeatherContext);
 
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && weatherData) {
       const fetchTrackRecommendations = async () => {
         // Request user's top 5 artists
         const topArtistsJson = await fetch(
@@ -38,9 +42,31 @@ export default function Playlist() {
           // Map top artists data into array of ids
           const artistsIds = artists.map((artist) => artist.id).toString();
 
+          // Find Spotify Attributes matched against weather condition (code) and temperature feeling
+          const { tempFeeling, conditionCode } = weatherData;
+
+          const weatherConditionAttributes =
+            weatherCodes[conditionCode].playlistSettings[tempFeeling];
+
+          // Spotify Track Attributes
+          const params = {
+            limit: String(20),
+            seed_artists: artistsIds,
+            target_acousticness: String(
+              weatherConditionAttributes.acousticness
+            ),
+            target_danceability: String(
+              weatherConditionAttributes.danceability
+            ),
+            target_energy: String(weatherConditionAttributes.energy),
+            target_valence: String(weatherConditionAttributes.valence),
+          };
+
+          const fetchParams = new URLSearchParams(params);
+
           // Request 20 recommended tracks based on seed artists
           const tracksJson = await fetch(
-            `${endpoints.spotify}/recommendations?limit=20&seed_artists=${artistsIds}`,
+            `${endpoints.spotify}/recommendations?${fetchParams}`,
             {
               method: 'GET',
               headers: { Authorization: `Bearer ${accessToken}` },
@@ -55,7 +81,7 @@ export default function Playlist() {
       };
       fetchTrackRecommendations();
     }
-  }, [accessToken]);
+  }, [accessToken, weatherData]);
 
   const handleTrackClick = async (trackIndex: number) => {
     // Create array from clicked on track onwards

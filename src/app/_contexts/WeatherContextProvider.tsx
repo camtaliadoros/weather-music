@@ -1,6 +1,6 @@
 'use client';
 
-import { weatherCodes } from '@/util/weatherCodes';
+import { Temperature, weatherCodes } from '@/util/weatherCodes';
 import { createContext, useEffect, useState } from 'react';
 import { WeatherData } from '../_models';
 
@@ -37,9 +37,23 @@ export const WeatherContextProvider = ({
               );
               const result = await res.json();
 
+              let tempFeeling: Temperature;
+              const tempC = result.current.temp_c;
+
+              if (tempC <= 5) {
+                tempFeeling = 'cold';
+              } else if (tempC > 5 && tempC <= 15) {
+                tempFeeling = 'mild';
+              } else if (tempC > 15 && tempC <= 25) {
+                tempFeeling = 'warm';
+              } else {
+                tempFeeling = 'hot';
+              }
+
               const weatherRes: WeatherData = {
                 location: result.location.name,
-                temperature: result.current.temp_c,
+                temperature: tempC,
+                tempFeeling: tempFeeling,
                 feelsLike: result.current.feelslike_c,
                 condition: result.current.condition.text,
                 conditionCode: result.current.condition.code,
