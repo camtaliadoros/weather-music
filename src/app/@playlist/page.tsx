@@ -19,7 +19,8 @@ export default function Playlist() {
     null
   );
 
-  const { accessToken, userId, userType } = useContext(SpotifyContext);
+  const { accessToken, userId, userType, deviceId } =
+    useContext(SpotifyContext);
   const { weatherData } = useContext(WeatherContext);
 
   useEffect(() => {
@@ -93,16 +94,19 @@ export default function Playlist() {
     // Start playing track clicked on
 
     try {
-      const playResponse = await fetch(`${endpoints.spotify}/me/player/play`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          uris: tracksUris,
-        }),
-      });
+      const playResponse = await fetch(
+        `${endpoints.spotify}/me/player/play?device_id=${deviceId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            uris: tracksUris,
+          }),
+        }
+      );
     } catch (e) {
       console.log(e);
     }

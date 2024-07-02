@@ -1,10 +1,9 @@
+import { Column } from '@/components/column';
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
-import './globals.css';
-import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
-import { Column } from '@/components/column';
-import { Suspense } from 'react';
 import { SpotifyContextProvider } from './_contexts/SpotifyAuthContextProvider';
+import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
+import './globals.css';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -17,12 +16,12 @@ export default function RootLayout({
   children,
   weather,
   playlist,
-  player,
+  spotifyplayer,
 }: {
   children: React.ReactNode;
   weather: React.ReactNode;
   playlist: React.ReactNode;
-  player: React.ReactNode;
+  spotifyplayer: React.ReactNode;
 }) {
   return (
     <html lang='en'>
@@ -35,7 +34,7 @@ export default function RootLayout({
                 <Column>{weather}</Column>
                 <Column>{playlist}</Column>
               </div>
-              <div className='h-1/5 justify-self-end'>{player}</div>
+              <div className='h-1/5 justify-self-end'>{spotifyplayer}</div>
             </main>
           </body>
         </SpotifyContextProvider>

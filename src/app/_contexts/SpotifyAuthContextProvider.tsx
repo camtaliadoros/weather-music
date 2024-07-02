@@ -3,7 +3,9 @@
 import { getAccessToken, redirectToAuthCodeFlow } from '@/util/spotifyAuth';
 import { endpoints } from '@/util/util';
 import {
+  Dispatch,
   MutableRefObject,
+  SetStateAction,
   createContext,
   useEffect,
   useRef,
@@ -20,6 +22,8 @@ export const SpotifyContext = createContext<{
   error: string | null;
   userType: string | null | undefined;
   userId: string | undefined;
+  deviceId?: string | undefined;
+  setDeviceId?: Dispatch<SetStateAction<undefined>>;
 }>({ error: null, userType: undefined, userId: undefined });
 
 export const SpotifyContextProvider = ({
@@ -30,6 +34,7 @@ export const SpotifyContextProvider = ({
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<ProfileDataType>();
+  const [deviceId, setDeviceId] = useState();
 
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
@@ -80,6 +85,8 @@ export const SpotifyContextProvider = ({
         error,
         userId: userData?.id,
         userType: userData?.product,
+        deviceId,
+        setDeviceId,
       }}
     >
       {children}
