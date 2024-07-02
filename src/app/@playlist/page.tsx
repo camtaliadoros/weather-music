@@ -11,6 +11,8 @@ import Button from '@/components/button';
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
   const [loading, setLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [playlistSaveSuccess, setPlaylistSaveSuccess] = useState(false);
 
   const { accessToken, userId } = useContext(SpotifyContext);
 
@@ -81,6 +83,8 @@ export default function Playlist() {
   };
 
   const handlePlaylistButtonClick = async () => {
+    setButtonLoading(true);
+
     // Create new playlist
     const playlistName = 'Beateorology';
     const responseJson = await fetch(
@@ -112,6 +116,7 @@ export default function Playlist() {
         body: JSON.stringify({ uris: tracksUris }),
       }
     );
+    setButtonLoading(false);
   };
 
   if (loading) {
@@ -140,9 +145,11 @@ export default function Playlist() {
           <p>No tracks found</p>
         )}
       </div>
+
       <Button
         label='Add this playlist to your Spotify'
         onClickAction={handlePlaylistButtonClick}
+        loading={buttonLoading}
       />
     </div>
   );
