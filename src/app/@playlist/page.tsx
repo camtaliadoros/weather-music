@@ -40,7 +40,7 @@ export default function Playlist() {
 
           // Request 20 recommended tracks based on seed artists
           const tracksJson = await fetch(
-            `https://api.spotify.com/v1/recommendations?limit=20&seed_artists=${artistsIds}`,
+            `${endpoints.spotify}/recommendations?limit=20&seed_artists=${artistsIds}`,
             {
               method: 'GET',
               headers: { Authorization: `Bearer ${accessToken}` },
@@ -67,7 +67,7 @@ export default function Playlist() {
     // Start playing track clicked on
 
     try {
-      const playResponse = await fetch(`${endpoints.spotify}/player/play`, {
+      const playResponse = await fetch(`${endpoints.spotify}/me/player/play`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${accessToken}`,
