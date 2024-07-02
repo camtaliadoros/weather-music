@@ -24,7 +24,6 @@ export const SpotifyContextProvider = ({
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<ProfileDataType>();
-  const [deviceId, setDeviceId] = useState();
 
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
@@ -58,7 +57,7 @@ export const SpotifyContextProvider = ({
           });
 
           const profileData = (await profileJson.json()) as ProfileDataType;
-          // setUserType(profileData.product);
+
           setUserData(profileData);
         } catch (e) {
           console.log('Could not retrieve user data');

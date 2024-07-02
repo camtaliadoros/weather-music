@@ -18,7 +18,7 @@ export default function SpotifyPlayer() {
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
 
-  const { accessToken } = useContext(SpotifyContext);
+  const { accessToken, userType } = useContext(SpotifyContext);
   const { setDeviceId } = useContext(SpotifyPlayerContext);
 
   useEffect(() => {
@@ -66,6 +66,10 @@ export default function SpotifyPlayer() {
       };
     }
   }, [accessToken]);
+
+  if (userType !== 'premium' || !userType) {
+    return <p>You need a premium account to access the player</p>;
+  }
 
   return (
     <>
