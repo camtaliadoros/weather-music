@@ -1,15 +1,15 @@
 'use client';
 
-import Track from '@/components/track';
+import Button from '@/components/button';
 import Loading from '@/components/loading';
+import Track from '@/components/track';
 import { endpoints } from '@/util/util';
+import { weatherCodes } from '@/util/weatherCodes';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
-import { Artist, PlaylistResponse, TrackObject } from '../_models';
-import Button from '@/components/button';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
-import { weatherCodes } from '@/util/weatherCodes';
-import { strict } from 'assert';
+import { Artist, PlaylistResponse, TrackObject } from '../_models';
+import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
@@ -19,9 +19,9 @@ export default function Playlist() {
     null
   );
 
-  const { accessToken, userId, userType, deviceId } =
-    useContext(SpotifyContext);
+  const { accessToken, userId, userType } = useContext(SpotifyContext);
   const { weatherData } = useContext(WeatherContext);
+  const { deviceId } = useContext(SpotifyPlayerContext);
 
   useEffect(() => {
     if (accessToken && weatherData) {

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
+import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
 
 const track = {
   name: '',
@@ -17,7 +18,8 @@ export default function SpotifyPlayer() {
   const [is_active, setActive] = useState(false);
   const [current_track, setTrack] = useState(track);
 
-  const { accessToken, setDeviceId } = useContext(SpotifyContext);
+  const { accessToken } = useContext(SpotifyContext);
+  const { setDeviceId } = useContext(SpotifyPlayerContext);
 
   useEffect(() => {
     if (accessToken) {

@@ -2,15 +2,7 @@
 
 import { getAccessToken, redirectToAuthCodeFlow } from '@/util/spotifyAuth';
 import { endpoints } from '@/util/util';
-import {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  createContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 type ProfileDataType = {
   product: string | null;
@@ -22,8 +14,6 @@ export const SpotifyContext = createContext<{
   error: string | null;
   userType: string | null | undefined;
   userId: string | undefined;
-  deviceId?: string | undefined;
-  setDeviceId?: Dispatch<SetStateAction<undefined>>;
 }>({ error: null, userType: undefined, userId: undefined });
 
 export const SpotifyContextProvider = ({
@@ -85,8 +75,6 @@ export const SpotifyContextProvider = ({
         error,
         userId: userData?.id,
         userType: userData?.product,
-        deviceId,
-        setDeviceId,
       }}
     >
       {children}

@@ -4,6 +4,7 @@ import { Open_Sans } from 'next/font/google';
 import { SpotifyContextProvider } from './_contexts/SpotifyAuthContextProvider';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 import './globals.css';
+import { SpotifyPlayerContextProvider } from './_contexts/SpotifyPlayerContext';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -27,16 +28,18 @@ export default function RootLayout({
     <html lang='en'>
       <WeatherContextProvider>
         <SpotifyContextProvider>
-          <body className={`${openSans.className} h-screen`}>
-            <main className='flex flex-col w-full text-center h-screen'>
-              {children}
-              <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
-                <Column>{weather}</Column>
-                <Column>{playlist}</Column>
-              </div>
-              <div className='h-1/5 justify-self-end'>{spotifyplayer}</div>
-            </main>
-          </body>
+          <SpotifyPlayerContextProvider>
+            <body className={`${openSans.className} h-screen`}>
+              <main className='flex flex-col w-full text-center h-screen'>
+                {children}
+                <div className='grid grid-cols-1 lg:grid-cols-2 h-3/5 content-center'>
+                  <Column>{weather}</Column>
+                  <Column>{playlist}</Column>
+                </div>
+                <div className='h-1/5 justify-self-end'>{spotifyplayer}</div>
+              </main>
+            </body>
+          </SpotifyPlayerContextProvider>
         </SpotifyContextProvider>
       </WeatherContextProvider>
     </html>
