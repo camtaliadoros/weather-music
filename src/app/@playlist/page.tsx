@@ -192,7 +192,7 @@ export default function Playlist() {
               <button
                 key={track.id}
                 onClick={() => handleTrackClick(i)}
-                className='flex items-center w-full py-4 hover:bg-chalk hover:bg-opacity-10 transition'
+                className='flex items-center w-full py-2 hover:bg-chalk hover:bg-opacity-10 transition'
               >
                 <Track key={track.id} trackData={track} />
               </button>

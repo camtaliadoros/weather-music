@@ -25,7 +25,7 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
           )}
         </div>
       )}
-      <div className='flex flex-col items-start py-2'>
+      <div className='flex flex-col items-start'>
         <TrackName track={trackName} />
         <TrackArtists artists={artistsArr} />
       </div>
