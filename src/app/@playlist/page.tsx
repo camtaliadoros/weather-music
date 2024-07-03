@@ -2,7 +2,7 @@
 
 import Button from '@/components/button';
 import Loading from '@/components/loading';
-import Track from '@/components/track';
+
 import { endpoints } from '@/util/util';
 import { weatherCodes } from '@/util/weatherCodes';
 import { useContext, useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 import { Artist, PlaylistResponse, TrackObject } from '../_models';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
+import Track from '@/components/Track';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
@@ -214,6 +215,7 @@ export default function Playlist() {
           label='Add this playlist to your Spotify'
           onClickAction={handlePlaylistButtonClick}
           loading={buttonLoading}
+          classes=''
         />
       )}
     </div>
