@@ -11,11 +11,9 @@ import { TrackArtists } from '@/components/trackArtists';
 
 export default function SpotifyPlayer() {
   const [userPlayer, setUserPlayer] = useState(undefined);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isActive, setIsActive] = useState(false);
 
   const { accessToken, userType } = useContext(SpotifyContext);
-  const { setDeviceId, currentTrack, setCurrentTrack } =
+  const { setDeviceId, currentTrack, setCurrentTrack, isPaused, setIsPaused } =
     useContext(SpotifyPlayerContext);
 
   useEffect(() => {
@@ -51,10 +49,6 @@ export default function SpotifyPlayer() {
 
           setCurrentTrack?.(state.track_window.current_track);
           setIsPaused(state.paused);
-        });
-
-        player.getCurrentState().then((state) => {
-          !state ? setIsActive(false) : setIsActive(true);
         });
 
         player.connect();

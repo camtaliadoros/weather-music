@@ -21,7 +21,7 @@ export default function Playlist() {
 
   const { accessToken, userId, userType } = useContext(SpotifyContext);
   const { weatherData } = useContext(WeatherContext);
-  const { deviceId } = useContext(SpotifyPlayerContext);
+  const { deviceId, currentTrack, isPaused } = useContext(SpotifyPlayerContext);
 
   useEffect(() => {
     if (accessToken && weatherData) {
@@ -85,30 +85,47 @@ export default function Playlist() {
   }, [accessToken, weatherData]);
 
   const handleTrackClick = async (trackIndex: number) => {
-    // Create array from clicked on track onwards
-    const tracksToPlay = playlist?.slice(trackIndex);
+    if (currentTrack.id === playlist?.[trackIndex].id && !isPaused) {
+      try {
+        const response = await fetch(
+          `${endpoints.spotify}/me/player/pause?device_id=${deviceId}`,
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      // Create array from clicked on track onwards
+      const tracksToPlay = playlist?.slice(trackIndex);
 
-    // Isolate track URIs
-    const tracksUris = tracksToPlay?.map((track) => track.uri);
+      // Isolate track URIs
+      const tracksUris = tracksToPlay?.map((track) => track.uri);
 
-    // Start playing track clicked on
+      // Start playing track clicked on
 
-    try {
-      const playResponse = await fetch(
-        `${endpoints.spotify}/me/player/play?device_id=${deviceId}`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            uris: tracksUris,
-          }),
-        }
-      );
-    } catch (e) {
-      console.log(e);
+      try {
+        const playResponse = await fetch(
+          `${endpoints.spotify}/me/player/play?device_id=${deviceId}`,
+          {
+            method: 'PUT',
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              uris: tracksUris,
+            }),
+          }
+        );
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
