@@ -1,11 +1,11 @@
 import { SpotifyContext } from '@/app/_contexts/SpotifyAuthContextProvider';
-import { TrackObject } from '@/app/_models';
-import { useContext, useEffect } from 'react';
-import { TrackArtists } from './trackArtists';
-import { TrackName } from './trackName';
-import TrackControlIcon from './trackControlIcon';
-import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyPlayerContext } from '@/app/_contexts/SpotifyPlayerContext';
+import { TrackObject } from '@/app/_models';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { useContext } from 'react';
+import { TrackArtists } from './trackArtists';
+import TrackControlIcon from './trackControlIcon';
+import { TrackName } from './trackName';
 
 export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsArr = trackData.artists;
