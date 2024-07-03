@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState, useEffect, useContext } from 'react';
+import { faBackward, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faForward } from '@fortawesome/free-solid-svg-icons/faForward';
+import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
+import TrackControlIcon from '@/components/trackControlIcon';
 
 const track = {
   name: '',
@@ -14,9 +17,9 @@ const track = {
 
 export default function SpotifyPlayer() {
   const [userPlayer, setUserPlayer] = useState(undefined);
-  const [is_paused, setPaused] = useState(false);
-  const [is_active, setActive] = useState(false);
-  const [current_track, setTrack] = useState(track);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState(track);
 
   const { accessToken, userType } = useContext(SpotifyContext);
   const { setDeviceId } = useContext(SpotifyPlayerContext);
@@ -52,11 +55,11 @@ export default function SpotifyPlayer() {
             return;
           }
 
-          setTrack(state.track_window.current_track);
-          setPaused(state.paused);
+          setCurrentTrack(state.track_window.current_track);
+          setIsPaused(state.paused);
 
           player.getCurrentState().then((state) => {
-            !state ? setActive(false) : setActive(true);
+            !state ? setIsActive(false) : setIsActive(true);
           });
         });
 
@@ -72,44 +75,34 @@ export default function SpotifyPlayer() {
   }
 
   return (
-    <>
-      <div className='container'>
-        <div className='main-wrapper'>
-          <div className='now-playing__side'>
-            <div className='now-playing__name'>{current_track.name}</div>
+    <div className='flex flex-col justify-center items-center h-full py-8'>
+      <div className='h-1/3 flex items-center'>
+        <TrackControlIcon
+          icon={faBackward}
+          action={() => userPlayer.previousTrack()}
+        />
 
-            <div className='now-playing__artist'>
-              {current_track.artists[0].name}
-            </div>
-          </div>
-          <button
-            className='btn-spotify'
-            onClick={() => {
-              userPlayer.previousTrack();
-            }}
-          >
-            &lt;&lt;
-          </button>
+        {isPaused ? (
+          <TrackControlIcon
+            icon={faPlay}
+            action={() => userPlayer.togglePlay()}
+          />
+        ) : (
+          <TrackControlIcon
+            icon={faPause}
+            action={() => userPlayer.togglePlay()}
+          />
+        )}
 
-          <button
-            className='btn-spotify'
-            onClick={() => {
-              userPlayer.togglePlay();
-            }}
-          >
-            {is_paused ? 'PLAY' : 'PAUSE'}
-          </button>
-
-          <button
-            className='btn-spotify'
-            onClick={() => {
-              userPlayer.nextTrack();
-            }}
-          >
-            &gt;&gt;
-          </button>
-        </div>
+        <TrackControlIcon
+          icon={faForward}
+          action={() => userPlayer.nextTrack()}
+        />
       </div>
-    </>
+      <div className='h-2/3 flex flex-col items-center justify-center'>
+        <h5>{currentTrack.name}</h5>
+        <h6>{currentTrack.artists[0].name}</h6>
+      </div>
+    </div>
   );
 }
