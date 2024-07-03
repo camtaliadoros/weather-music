@@ -1,14 +1,14 @@
 import { SpotifyContext } from '@/app/_contexts/SpotifyAuthContextProvider';
 import { TrackObject } from '@/app/_models';
-import { lineArtistsNames } from '@/util/util';
 import { useContext } from 'react';
+import { TrackArtists } from './trackArtists';
+import { TrackName } from './trackName';
+import TrackControlIcon from './trackControlIcon';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 export default function Track({ trackData }: { trackData: TrackObject }) {
   const artistsArr = trackData.artists;
   const trackName = trackData.name;
-
-  // Get artist names into a single comma-separated line
-  const artistsLine = lineArtistsNames(artistsArr);
 
   const { userType } = useContext(SpotifyContext);
 
@@ -16,14 +16,12 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
     <>
       {userType === 'premium' && (
         <div className='m-4'>
-          <div className='play-icon'></div>
+          <TrackControlIcon icon={faPlay} action={undefined} />
         </div>
       )}
-
       <div className='flex flex-col items-start py-2'>
-        <p className='font-semibold mb-1 text-left'>{trackName}</p>
-
-        <p className='mb-0 text-left'>{artistsLine}</p>
+        <TrackName track={trackName} />
+        <TrackArtists artists={artistsArr} />
       </div>
     </>
   );

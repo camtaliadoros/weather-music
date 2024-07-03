@@ -6,6 +6,8 @@ import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
 import TrackControlIcon from '@/components/trackControlIcon';
+import { TrackName } from '@/components/trackName';
+import { TrackArtists } from '@/components/trackArtists';
 
 const track = {
   name: '',
@@ -100,8 +102,8 @@ export default function SpotifyPlayer() {
         />
       </div>
       <div className='h-2/3 flex flex-col items-center justify-center'>
-        <h5>{currentTrack.name}</h5>
-        <h6>{currentTrack.artists[0].name}</h6>
+        <TrackName track={currentTrack.name} />
+        <TrackArtists artists={currentTrack.artists} />
       </div>
     </div>
   );

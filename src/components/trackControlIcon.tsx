@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type TrackIconProps = {
   icon: IconDefinition;
-  action: () => void;
+  action: undefined | (() => void);
 };
 
 export default function TrackControlIcon({ icon, action }: TrackIconProps) {
