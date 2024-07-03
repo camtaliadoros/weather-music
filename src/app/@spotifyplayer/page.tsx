@@ -9,22 +9,14 @@ import TrackControlIcon from '@/components/trackControlIcon';
 import { TrackName } from '@/components/trackName';
 import { TrackArtists } from '@/components/trackArtists';
 
-const track = {
-  name: '',
-  album: {
-    images: [{ url: '' }],
-  },
-  artists: [{ name: '' }],
-};
-
 export default function SpotifyPlayer() {
   const [userPlayer, setUserPlayer] = useState(undefined);
   const [isPaused, setIsPaused] = useState(false);
   const [isActive, setIsActive] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(track);
 
   const { accessToken, userType } = useContext(SpotifyContext);
-  const { setDeviceId } = useContext(SpotifyPlayerContext);
+  const { setDeviceId, currentTrack, setCurrentTrack } =
+    useContext(SpotifyPlayerContext);
 
   useEffect(() => {
     if (accessToken) {
@@ -57,12 +49,12 @@ export default function SpotifyPlayer() {
             return;
           }
 
-          setCurrentTrack(state.track_window.current_track);
+          setCurrentTrack?.(state.track_window.current_track);
           setIsPaused(state.paused);
+        });
 
-          player.getCurrentState().then((state) => {
-            !state ? setIsActive(false) : setIsActive(true);
-          });
+        player.getCurrentState().then((state) => {
+          !state ? setIsActive(false) : setIsActive(true);
         });
 
         player.connect();
@@ -70,7 +62,7 @@ export default function SpotifyPlayer() {
         setUserPlayer(player);
       };
     }
-  }, [accessToken]);
+  }, [accessToken, setDeviceId, setCurrentTrack]);
 
   if (userType !== 'premium' || !userType) {
     return <p>You need a premium account to access the player</p>;
