@@ -183,7 +183,7 @@ export default function Playlist() {
   }
 
   return (
-    <div className='flex flex-col h-full w-1/2 text-wrap'>
+    <div className='flex flex-col h-full md:w-3/4 xl:w-1/2 text-wrap'>
       <h2 className='text-xl font-bold mb-6'>Playlist</h2>
       <div className='h-full overflow-scroll'>
         {playlist ? (

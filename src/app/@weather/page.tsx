@@ -27,10 +27,15 @@ export default function Weather() {
               height={64}
             />
           )}
-          <p>{weatherData.condition}</p>
-          <p>The current temperature in {weatherData.location} is</p>
-          <p className='text-4xl font-bold'> {weatherData.temperature}&deg;C</p>
-          <p>
+          <p className='text-sm lg:text-base'>{weatherData.condition}</p>
+          <p className='text-sm lg:text-base'>
+            The current temperature in {weatherData.location} is
+          </p>
+          <p className='text-xl lg:text-4xl font-bold'>
+            {' '}
+            {weatherData.temperature}&deg;C
+          </p>
+          <p className='text-sm lg:text-base'>
             Feels like:{' '}
             <span className='font-bold'>{weatherData.feelsLike}&deg;C</span>
           </p>

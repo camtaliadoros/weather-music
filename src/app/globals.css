@@ -39,14 +39,6 @@ body {
   );
 }
 
-.play-icon {
-  width: 0;
-  height: 0;
-  border-left: 15px solid white;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
