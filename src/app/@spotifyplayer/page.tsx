@@ -1,16 +1,32 @@
 'use client';
 
+import { TrackArtists } from '@/components/trackArtists';
+import TrackControlIcon from '@/components/trackControlIcon';
+import { TrackName } from '@/components/trackName';
 import { faBackward, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faForward } from '@fortawesome/free-solid-svg-icons/faForward';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
-import TrackControlIcon from '@/components/trackControlIcon';
-import { TrackName } from '@/components/trackName';
-import { TrackArtists } from '@/components/trackArtists';
+import { TrackData } from '../_models';
+
+type DeviceId = {
+  device_id: string;
+};
+
+type State = {
+  track_window: TrackWindow;
+  paused: boolean;
+};
+
+type TrackWindow = {
+  current_track: TrackData;
+};
 
 export default function SpotifyPlayer() {
-  const [userPlayer, setUserPlayer] = useState(undefined);
+  const [userPlayer, setUserPlayer] = useState<SpotifyPlayer | undefined>(
+    undefined
+  );
 
   const { accessToken, userType } = useContext(SpotifyContext);
   const { setDeviceId, currentTrack, setCurrentTrack, isPaused, setIsPaused } =
@@ -26,29 +42,35 @@ export default function SpotifyPlayer() {
 
       window.onSpotifyWebPlaybackSDKReady = () => {
         const player = new window.Spotify.Player({
-          name: 'Web Playback SDK',
+          name: 'Beateorology Player',
           getOAuthToken: (cb) => {
             cb(accessToken);
           },
           volume: 0.5,
         });
 
-        player.addListener('ready', ({ device_id }) => {
-          console.log('Ready with Device ID', device_id);
-          setDeviceId(device_id);
+        player.addListener('ready', ({ device_id }: DeviceId) => {
+          setDeviceId?.(device_id);
         });
 
-        player.addListener('not_ready', ({ device_id }) => {
+        player.addListener('not_ready', ({ device_id }: DeviceId) => {
           console.log('Device ID has gone offline', device_id);
         });
 
-        player.addListener('player_state_changed', (state) => {
+        player.addListener('player_state_changed', (state: State) => {
+          console.log(state);
           if (!state) {
             return;
           }
 
-          setCurrentTrack?.(state.track_window.current_track);
-          setIsPaused(state.paused);
+          const trackData = {
+            name: state.track_window.current_track.name,
+            artists: state.track_window.current_track.artists,
+            id: state.track_window.current_track.id,
+          };
+
+          setCurrentTrack?.(trackData);
+          setIsPaused?.(state.paused);
         });
 
         player.connect();
@@ -56,7 +78,7 @@ export default function SpotifyPlayer() {
         setUserPlayer(player);
       };
     }
-  }, [accessToken, setDeviceId, setCurrentTrack]);
+  }, [accessToken, setDeviceId, setCurrentTrack, setIsPaused]);
 
   if (userType !== 'premium' || !userType) {
     return <p>You need a premium account to access the player</p>;
@@ -67,24 +89,24 @@ export default function SpotifyPlayer() {
       <div className='h-1/3 flex items-center'>
         <TrackControlIcon
           icon={faBackward}
-          action={() => userPlayer.previousTrack()}
+          action={() => userPlayer?.previousTrack()}
         />
 
         {isPaused ? (
           <TrackControlIcon
             icon={faPlay}
-            action={() => userPlayer.togglePlay()}
+            action={() => userPlayer?.togglePlay()}
           />
         ) : (
           <TrackControlIcon
             icon={faPause}
-            action={() => userPlayer.togglePlay()}
+            action={() => userPlayer?.togglePlay()}
           />
         )}
 
         <TrackControlIcon
           icon={faForward}
-          action={() => userPlayer.nextTrack()}
+          action={() => userPlayer?.nextTrack()}
         />
       </div>
       <div className='h-2/3 flex flex-col items-center justify-center'>

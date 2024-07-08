@@ -1,18 +1,12 @@
 'use client';
 
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
-import { Artist } from '../_models';
+import { Artist, TrackData } from '../_models';
 
 const track = {
   name: '',
   artists: [{ id: '', name: '' }],
   id: '',
-};
-
-type TrackData = {
-  name: string;
-  artists: Artist[];
-  id: string;
 };
 
 type SpotifyContext = {

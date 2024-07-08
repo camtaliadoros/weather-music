@@ -51,3 +51,9 @@ export type AccessToken = {
 export type PlaylistResponse = {
   id: string;
 };
+
+export type TrackData = {
+  name: string;
+  artists: Artist[];
+  id: string;
+};
