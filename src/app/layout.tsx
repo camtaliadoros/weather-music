@@ -39,10 +39,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <WeatherContextProvider>
-        <SpotifyAuthContextProvider>
-          <SpotifyPlayerContextProvider>
-            <body className={`${openSans.className}`}>
+      <body className={`${openSans.className}`}>
+        <WeatherContextProvider>
+          <SpotifyAuthContextProvider>
+            <SpotifyPlayerContextProvider>
               <main className='flex flex-col justify-between w-full text-center h-screen'>
                 <div className='flex items-center justify-center py-4 xl:py-8'>
                   <h1 className='h-1/6 lg:h-1/5 font-thin  text-chalk text-xl md:text-2xl lg:text-3xl 2xl:text-5xl'>
@@ -59,10 +59,10 @@ export default function RootLayout({
                   {spotifyplayer}
                 </div>
               </main>
-            </body>
-          </SpotifyPlayerContextProvider>
-        </SpotifyAuthContextProvider>
-      </WeatherContextProvider>
+            </SpotifyPlayerContextProvider>
+          </SpotifyAuthContextProvider>
+        </WeatherContextProvider>
+      </body>
     </html>
   );
 }

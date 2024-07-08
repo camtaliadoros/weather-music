@@ -7,7 +7,7 @@ type AccessTokenRequestParamsType = {
 };
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID!;
-const redirectUri = 'http://localhost:3000/';
+const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_CALLBACK as string;
 
 export async function redirectToAuthCodeFlow() {
   const verifier = generateCodeVerifier(128);
