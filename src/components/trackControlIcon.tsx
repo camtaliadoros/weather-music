@@ -6,7 +6,7 @@ type TrackIconProps = {
   action: undefined | (() => void);
 };
 
-export default function TrackControlIcon({ icon, action }: TrackIconProps) {
+export const TrackControlIcon = ({ icon, action }: TrackIconProps) => {
   return (
     <button className='mx-2' onClick={action}>
       <FontAwesomeIcon
@@ -15,4 +15,4 @@ export default function TrackControlIcon({ icon, action }: TrackIconProps) {
       />
     </button>
   );
-}
+};

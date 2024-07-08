@@ -7,12 +7,12 @@ type ButtonPropsType = {
   classes: string;
 };
 
-export default function Button({
+export const Button = ({
   label,
   onClickAction,
   loading,
   classes,
-}: ButtonPropsType) {
+}: ButtonPropsType) => {
   return (
     <button
       className={` h-16 my-4 ring-1 ring-chalk rounded-full text-chalk transition hover:bg-chalk hover:bg-opacity-30  ${classes}`}
@@ -27,4 +27,4 @@ export default function Button({
       {!loading && label}
     </button>
   );
-}
+};

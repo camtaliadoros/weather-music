@@ -1,7 +1,6 @@
 'use client';
 
-import Button from '@/components/button';
-import Loading from '@/components/loading';
+import { Button, Loading, Track } from '@/components';
 
 import { endpoints } from '@/util/util';
 import { weatherCodes } from '@/util/weatherCodes';
@@ -10,7 +9,6 @@ import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 import { Artist, PlaylistResponse, TrackObject } from '../_models';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
-import Track from '@/components/track';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();
