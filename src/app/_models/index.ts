@@ -1,6 +1,5 @@
 import { Temperature } from '@/util/weatherCodes';
 
-// I guess youd never have latitude without longditude also i cant find this used
 export interface Location {
   latitude: number | null;
   longitude: number | null;

@@ -1,7 +1,7 @@
 'use client';
 
 import { Dispatch, SetStateAction, createContext, useState } from 'react';
-import { Artist, TrackData } from '../_models';
+import { TrackData } from '../_models';
 
 const track = {
   name: '',
