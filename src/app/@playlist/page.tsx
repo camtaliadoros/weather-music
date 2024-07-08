@@ -190,13 +190,13 @@ export default function Playlist() {
         {playlist ? (
           playlist.map((track, i) =>
             userType === 'premium' ? (
-              <button
+              <div
                 key={track.id}
                 onClick={() => handleTrackClick(i)}
                 className='flex items-center w-full py-2 hover:bg-chalk hover:bg-opacity-10 transition'
               >
                 <Track key={track.id} trackData={track} />
-              </button>
+              </div>
             ) : (
               <Track key={track.id} trackData={track} />
             )
