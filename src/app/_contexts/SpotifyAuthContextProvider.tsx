@@ -16,11 +16,11 @@ export const SpotifyContext = createContext<{
   userId: string | undefined;
 }>({ error: null, userType: undefined, userId: undefined });
 
-export const SpotifyContextProvider = ({
+export default function SpotifyAuthContextProvider({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<ProfileDataType>();
@@ -83,4 +83,4 @@ export const SpotifyContextProvider = ({
       {children}
     </SpotifyContext.Provider>
   );
-};
+}

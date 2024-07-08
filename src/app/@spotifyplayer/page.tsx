@@ -7,7 +7,7 @@ import { faBackward, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faForward } from '@fortawesome/free-solid-svg-icons/faForward';
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
-import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
+import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContextProvider';
 import { TrackData } from '../_models';
 
 type DeviceId = {

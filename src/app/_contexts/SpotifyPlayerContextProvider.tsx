@@ -24,11 +24,11 @@ export const SpotifyPlayerContext = createContext<SpotifyContext>({
   isPaused: false,
 });
 
-export const SpotifyPlayerContextProvider = ({
+export default function SpotifyPlayerContextProvider({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => {
+}>) {
   const [deviceId, setDeviceId] = useState('');
   const [currentTrack, setCurrentTrack] = useState<TrackData>(track);
   const [isPaused, setIsPaused] = useState(false);
@@ -47,4 +47,4 @@ export const SpotifyPlayerContextProvider = ({
       {children}
     </SpotifyPlayerContext.Provider>
   );
-};
+}

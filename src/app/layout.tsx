@@ -1,12 +1,25 @@
 import { Column } from '@/components/column';
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
-import { SpotifyContextProvider } from './_contexts/SpotifyAuthContextProvider';
-import { SpotifyPlayerContextProvider } from './_contexts/SpotifyPlayerContext';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 import './globals.css';
+import dynamic from 'next/dynamic';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
+
+const SpotifyPlayerContextProvider = dynamic(
+  () => import('./_contexts/SpotifyPlayerContextProvider'),
+  {
+    ssr: false,
+  }
+);
+
+const SpotifyAuthContextProvider = dynamic(
+  () => import('./_contexts/SpotifyAuthContextProvider'),
+  {
+    ssr: false,
+  }
+);
 
 export const metadata: Metadata = {
   title: 'Beateorology',
@@ -27,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <WeatherContextProvider>
-        <SpotifyContextProvider>
+        <SpotifyAuthContextProvider>
           <SpotifyPlayerContextProvider>
             <body className={`${openSans.className}`}>
               <main className='flex flex-col justify-between w-full text-center h-screen'>
@@ -48,7 +61,7 @@ export default function RootLayout({
               </main>
             </body>
           </SpotifyPlayerContextProvider>
-        </SpotifyContextProvider>
+        </SpotifyAuthContextProvider>
       </WeatherContextProvider>
     </html>
   );
