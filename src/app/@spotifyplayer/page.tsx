@@ -1,7 +1,7 @@
 'use client';
 
 import { TrackArtists } from '@/components/trackArtists';
-import TrackControlIcon from '@/components/trackControlIcon';
+import { TrackControlIcon } from '@/components/trackControlIcon';
 import { TrackName } from '@/components/trackName';
 import { faBackward, faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { faForward } from '@fortawesome/free-solid-svg-icons/faForward';

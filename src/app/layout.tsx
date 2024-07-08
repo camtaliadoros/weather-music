@@ -2,11 +2,9 @@ import { Column } from '@/components/column';
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 import { SpotifyContextProvider } from './_contexts/SpotifyAuthContextProvider';
+import { SpotifyPlayerContextProvider } from './_contexts/SpotifyPlayerContext';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 import './globals.css';
-import { SpotifyPlayerContextProvider } from './_contexts/SpotifyPlayerContext';
-import Button from '@/components/button';
-import { useState } from 'react';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 

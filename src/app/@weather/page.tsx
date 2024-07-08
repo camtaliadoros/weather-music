@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Loading from '../../components/loading';
+import { Loading } from '../../components/loading';
 import { useContext } from 'react';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 
