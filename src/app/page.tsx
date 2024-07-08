@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/Button';
 import { useState } from 'react';
 
 const weatherView = {
