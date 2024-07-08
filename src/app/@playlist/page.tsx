@@ -10,7 +10,7 @@ import { SpotifyContext } from '../_contexts/SpotifyAuthContextProvider';
 import { WeatherContext } from '../_contexts/WeatherContextProvider';
 import { Artist, PlaylistResponse, TrackObject } from '../_models';
 import { SpotifyPlayerContext } from '../_contexts/SpotifyPlayerContext';
-import Track from '@/components/Track';
+import { Track } from '../../components/track';
 
 export default function Playlist() {
   const [playlist, setPlaylist] = useState<TrackObject[]>();

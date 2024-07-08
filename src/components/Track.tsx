@@ -7,7 +7,7 @@ import { TrackArtists } from './trackArtists';
 import TrackControlIcon from './trackControlIcon';
 import { TrackName } from './trackName';
 
-export default function Track({ trackData }: { trackData: TrackObject }) {
+export const Track = ({ trackData }: { trackData: TrackObject }) => {
   const artistsArr = trackData.artists;
   const trackName = trackData.name;
 
@@ -31,4 +31,4 @@ export default function Track({ trackData }: { trackData: TrackObject }) {
       </div>
     </>
   );
-}
+};
