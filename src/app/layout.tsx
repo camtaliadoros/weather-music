@@ -4,6 +4,7 @@ import { Open_Sans } from 'next/font/google';
 import { WeatherContextProvider } from './_contexts/WeatherContextProvider';
 import './globals.css';
 import dynamic from 'next/dynamic';
+import Contexts from './_contexts/Contexts';
 
 const openSans = Open_Sans({ subsets: ['latin'] });
 
@@ -40,28 +41,24 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${openSans.className}`}>
-        <WeatherContextProvider>
-          <SpotifyAuthContextProvider>
-            <SpotifyPlayerContextProvider>
-              <main className='flex flex-col justify-between w-full text-center h-screen'>
-                <div className='flex items-center justify-center py-4 xl:py-8'>
-                  <h1 className='h-1/6 lg:h-1/5 font-thin  text-chalk text-xl md:text-2xl lg:text-3xl 2xl:text-5xl'>
-                    Beateorology
-                  </h1>
-                </div>
-                <div className='h-4/6 lg:h-3/5 w-screen flex overflow-hidden md:grid md:grid-cols-2 md:content-center'>
-                  <Column>{weather}</Column>
-                  <Column>{playlist}</Column>
-                </div>
-                {children}
+        <Contexts>
+          <main className='flex flex-col justify-between w-full text-center h-screen'>
+            <div className='flex items-center justify-center py-4 xl:py-8'>
+              <h1 className='h-1/6 lg:h-1/5 font-thin  text-chalk text-xl md:text-2xl lg:text-3xl 2xl:text-5xl'>
+                Beateorology
+              </h1>
+            </div>
+            <div className='h-4/6 lg:h-3/5 w-screen flex overflow-hidden md:grid md:grid-cols-2 md:content-center'>
+              <Column>{weather}</Column>
+              <Column>{playlist}</Column>
+            </div>
+            {children}
 
-                <div className='justify-self-end h-1/6 lg:h-1/5'>
-                  {spotifyplayer}
-                </div>
-              </main>
-            </SpotifyPlayerContextProvider>
-          </SpotifyAuthContextProvider>
-        </WeatherContextProvider>
+            <div className='justify-self-end h-1/6 lg:h-1/5'>
+              {spotifyplayer}
+            </div>
+          </main>
+        </Contexts>
       </body>
     </html>
   );
