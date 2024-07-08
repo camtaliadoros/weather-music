@@ -15,7 +15,7 @@ export const Button = ({
 }: ButtonPropsType) => {
   return (
     <button
-      className={` h-16 my-4 ring-1 ring-chalk rounded-full text-chalk transition hover:bg-chalk hover:bg-opacity-30  ${classes}`}
+      className={`m-4 h-16 ring-1 ring-chalk rounded-full text-chalk transition hover:bg-chalk hover:bg-opacity-30  ${classes}`}
       onClick={onClickAction}
     >
       <PropagateLoader
