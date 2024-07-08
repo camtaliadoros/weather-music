@@ -39,6 +39,10 @@ body {
   );
 }
 
+.mobile-view-playlist {
+  transform: translateX(-100%);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

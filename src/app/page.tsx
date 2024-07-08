@@ -1,29 +1,20 @@
 'use client';
 
 import { Button } from '@/components/button';
-import { useState } from 'react';
-
-const weatherView = {
-  label: 'View your playlist',
-  classes: 'translate-y-full',
-};
-
-const playlistView = {
-  label: 'View weather forecast',
-  classes: '',
-};
+import { useContext, useState } from 'react';
+import { MobileViewContext } from './_contexts/MobileViewContextProvidex';
 
 export default function Home() {
-  const [buttonView, setButtonView] = useState('weather');
   const [label, setLabel] = useState('View your playlist');
+  const { view, setView } = useContext(MobileViewContext);
 
   const togglePlaylistWeatherButtonClick = () => {
-    if (buttonView === 'weather') {
+    if (view === 'weather') {
       setLabel('View weather forecast');
-      setButtonView('playlist');
+      setView?.('playlist');
     } else {
       setLabel('View your playlist');
-      setButtonView('weather');
+      setView?.('weather');
     }
   };
 
