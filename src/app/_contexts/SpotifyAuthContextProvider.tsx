@@ -25,47 +25,51 @@ export const SpotifyContextProvider = ({
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<ProfileDataType>();
 
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
+  if (window !== undefined) {
+  }
 
   useEffect(() => {
-    try {
-      const getSpotifyAccess = async () => {
-        if (!accessToken) {
-          if (!code) {
-            redirectToAuthCodeFlow();
-          } else {
-            const token = await getAccessToken(code);
-            if (token) {
-              window.history.replaceState(undefined, '', '/');
-              setAccessToken?.(token);
+    if (typeof window !== undefined) {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      try {
+        const getSpotifyAccess = async () => {
+          if (!accessToken) {
+            if (!code) {
+              redirectToAuthCodeFlow();
+            } else {
+              const token = await getAccessToken(code);
+              if (token) {
+                window.history.replaceState(undefined, '', '/');
+                setAccessToken?.(token);
+              }
             }
           }
-        }
-      };
-      getSpotifyAccess();
-    } catch (e) {
-      setError('Could not access your Spotify account, please try again');
+        };
+        getSpotifyAccess();
+      } catch (e) {
+        setError('Could not access your Spotify account, please try again');
+      }
+
+      if (accessToken) {
+        const getUserProfileData = async () => {
+          try {
+            const profileJson = await fetch(`${endpoints.spotify}/me`, {
+              method: 'GET',
+              headers: { Authorization: `Bearer ${accessToken}` },
+            });
+
+            const profileData = (await profileJson.json()) as ProfileDataType;
+
+            setUserData(profileData);
+          } catch (e) {
+            console.log('Could not retrieve user data');
+          }
+        };
+        getUserProfileData();
+      }
     }
-
-    if (accessToken) {
-      const getUserProfileData = async () => {
-        try {
-          const profileJson = await fetch(`${endpoints.spotify}/me`, {
-            method: 'GET',
-            headers: { Authorization: `Bearer ${accessToken}` },
-          });
-
-          const profileData = (await profileJson.json()) as ProfileDataType;
-
-          setUserData(profileData);
-        } catch (e) {
-          console.log('Could not retrieve user data');
-        }
-      };
-      getUserProfileData();
-    }
-  }, [code, accessToken]);
+  }, [accessToken]);
 
   return (
     <SpotifyContext.Provider

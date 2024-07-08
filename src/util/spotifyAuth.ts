@@ -11,7 +11,7 @@ const redirectUri = 'http://localhost:3000/';
 
 export async function redirectToAuthCodeFlow() {
   const verifier = generateCodeVerifier(128);
-  const challenge = await generateCodeChallenge(verifier);
+  const challenge = (await generateCodeChallenge(verifier)) as string;
 
   localStorage.setItem('code_verifier', verifier);
 
@@ -41,12 +41,14 @@ export function generateCodeVerifier(length: number) {
 }
 
 export async function generateCodeChallenge(codeVerifier: string) {
-  const data = new TextEncoder().encode(codeVerifier);
-  const digest = await window.crypto.subtle.digest('SHA-256', data);
-  return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+  if (typeof window !== undefined) {
+    const data = new TextEncoder().encode(codeVerifier);
+    const digest = await window.crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode.apply(null, [...new Uint8Array(digest)]))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  }
 }
 
 export async function getAccessToken(code: string): Promise<string> {
